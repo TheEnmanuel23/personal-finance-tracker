@@ -46,7 +46,23 @@ model Wallet {
   updatedAt    DateTime      @updatedAt
   name         String
   transactions Transaction[]
+  
+  ownerId String
+  owner User @relation(fields: [ownerId], references: [id])
 
   @@unique([id, name])
   @@index([id, name])
+}
+
+model User {
+  id String @id @default(uuid())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  email String @unique
+  firstName String
+  lastName String
+  password String
+
+  wallets Wallet[]
 }

@@ -1,4 +1,5 @@
 import { TransactionType } from "@prisma/client";
+import { hashPassword } from "lib/auth";
 import { db } from "lib/db";
 
 async function main(): Promise<void> {
@@ -9,7 +10,16 @@ async function main(): Promise<void> {
     },
   });
 
-  console.log({ category });
+  const user = await db.user.create({
+    data: {
+      email: "user@gmai.com",
+      firstName: "User",
+      lastName: "person",
+      password: await hashPassword("password"),
+    },
+  });
+
+  console.log({ category, user });
 }
 
 main()
