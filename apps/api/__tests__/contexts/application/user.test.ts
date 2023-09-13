@@ -9,13 +9,13 @@ const mockUser = {
   email: "user@gmail.com",
   firstName: "user",
   lastName: "person",
-  password: "1234",
+  password: "1234"
 };
 
 class UserRepoMock implements UserRepository {
-  save = (newUser) => Promise.resolve(newUser);
-  getByEmail = () => Promise.resolve(mockUser);
-  getById = () => Promise.resolve(mockUser);
+  save = async (newUser) => await Promise.resolve(newUser);
+  getByEmail = async () => await Promise.resolve(mockUser);
+  getById = async () => await Promise.resolve(mockUser);
 }
 
 const userApp = new UserApp(new UserRepoMock());
@@ -36,7 +36,7 @@ describe("User tests", () => {
 
     const passwordIsValid = await comparePasswords(
       "1234",
-      savedUser?.password ?? "",
+      savedUser?.password ?? ""
     );
     expect(passwordIsValid).toBeTruthy();
   });
@@ -48,7 +48,7 @@ describe("User tests", () => {
 
     const passwordIsValid = await comparePasswords(
       "12345",
-      savedUser?.password ?? "",
+      savedUser?.password ?? ""
     );
     expect(passwordIsValid).toBeFalsy();
   });

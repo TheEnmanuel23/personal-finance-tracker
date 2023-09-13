@@ -1,4 +1,3 @@
-import { User } from "@prisma/client";
 import type { UserApp } from "contexts/application/user";
 import type { Request, Response } from "express";
 

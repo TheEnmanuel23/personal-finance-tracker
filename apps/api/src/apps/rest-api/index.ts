@@ -8,7 +8,7 @@ export class RestApi {
 
     this.server = new RestServer(port);
 
-    return this.server.listen();
+    await this.server.listen();
   }
 
   get httpServer() {

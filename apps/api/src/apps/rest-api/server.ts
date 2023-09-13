@@ -4,9 +4,10 @@ import type { Express } from "express";
 import type http from "http";
 import cors from "cors";
 import { userRouter } from "./routes/user.route";
+import { authRouter } from "./routes/auth.route";
 
 export class RestServer {
-  private express: Express;
+  private readonly express: Express;
   readonly port: string;
   httpServer?: http.Server;
 
@@ -19,13 +20,14 @@ export class RestServer {
 
     // Register routes
     this.express.use("/user", userRouter);
+    this.express.use("/auth", authRouter);
   }
 
-  listen(): Promise<void> {
-    return new Promise((resolve) => {
+  async listen(): Promise<void> {
+    await new Promise((resolve) => {
       this.httpServer = this.express.listen(this.port, () => {
         console.log(`[APP] - Starting application on port ${this.port}`);
-        resolve();
+        resolve("resolved");
       });
     });
   }
@@ -34,18 +36,18 @@ export class RestServer {
     return this.httpServer;
   }
 
-  stop(): Promise<void> {
-    return new Promise((resolve, reject) => {
+  async stop(): Promise<void> {
+    await new Promise((resolve, reject) => {
       if (this.httpServer) {
         this.httpServer.close((error) => {
           if (error) {
             reject(error);
           }
-          resolve();
+          resolve("resolved");
         });
       }
 
-      resolve();
+      resolve("resolved");
     });
   }
 }
