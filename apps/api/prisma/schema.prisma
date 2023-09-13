@@ -45,6 +45,10 @@ model Wallet {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   name         String
+  note         String
+  currency     String
+  initialBlance Float
+
   transactions Transaction[]
   
   ownerId String
