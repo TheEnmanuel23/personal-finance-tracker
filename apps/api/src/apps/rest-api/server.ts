@@ -5,22 +5,6 @@ import type http from "http";
 import cors from "cors";
 import { userRouter } from "./routes/user.route";
 
-// export function boostrap() {
-//   const app = express();
-//
-//   const PORT = process.env.PORT ?? 8000;
-//
-//   app.use(express.json());
-//
-//   app.use(cors());
-//
-//   app.use("/user", userRouter);
-//
-//   app.listen(PORT, () => {
-//     console.log(`[APP] - Starting application on port ${PORT}`);
-//   });
-// }
-
 export class RestServer {
   private express: Express;
   readonly port: string;
