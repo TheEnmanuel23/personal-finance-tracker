@@ -8,7 +8,7 @@
     "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
-    "module": "NodeNext",
+    "module": "CommonJS",
     "pretty": true,
     "sourceMap": true,
     "declaration": true,
