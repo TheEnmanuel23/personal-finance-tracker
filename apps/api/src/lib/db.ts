@@ -4,7 +4,7 @@ declare global {
   var cachedPrisma: PrismaClient;
 }
 
-function getPrismaClient(): PrismaClient {
+function getPrismaClient (): PrismaClient {
   if (process.env.NODE_ENV === "production") {
     return new PrismaClient();
   }

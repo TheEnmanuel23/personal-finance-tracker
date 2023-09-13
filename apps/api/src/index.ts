@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express, {
   type Application,
-  type Request,
+  type Request
   // Response,
   // NextFunction
 } from "express";
