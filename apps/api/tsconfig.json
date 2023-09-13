@@ -20,7 +20,9 @@
     "baseUrl": "src",
     "strictNullChecks": true,
     "paths": {
-      "@lib": ["./src/lib/*"]
+      "@lib": ["./src/lib/*"],
+      "@apps": ["./src/apps/*"],
+      "@contexts": ["contexts/*"]
     }
   },
   "exclude": ["node_modules"]
