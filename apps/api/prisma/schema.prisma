@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+model Category {
+  id        String          @id @default(uuid())
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  name      String
+  type      TransactionType
+  category  Transaction[]
+
+  @@unique([id, name, type])
+  @@index([id, type])
+}
+
+model Transaction {
+  id         String          @id @default(uuid())
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  type       TransactionType
+  amount     Float
+  categoryId String
+  category   Category        @relation(fields: [categoryId], references: [id])
+  note       String
+  wallet     Wallet          @relation(fields: [walletId], references: [id])
+  walletId   String
+}
+
+model Wallet {
+  id           String        @id @default(uuid())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  name         String
+  transactions Transaction[]
+
+  @@unique([id, name])
+  @@index([id, name])
+}
