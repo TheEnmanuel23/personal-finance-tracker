@@ -35,8 +35,9 @@ export class TransactionApp {
     return await this.transactionRepository.filter(filters);
   }
 
-  async filterByDateRage(startDate: Date, endDate: Date) {
+  async filterByDateRage(walletId: string, startDate: Date, endDate: Date) {
     return await this.transactionRepository.filterByDateRange(
+      walletId,
       startDate,
       endDate,
     );

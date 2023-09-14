@@ -22,5 +22,9 @@ export interface TransactionRepository {
 
   filter: (filters: TransactionFilters) => Promise<Transaction[]>;
 
-  filterByDateRange: (startDate: Date, endDate: Date) => Promise<Transaction[]>;
+  filterByDateRange: (
+    walletId: string,
+    startDate: Date,
+    endDate: Date,
+  ) => Promise<Transaction[]>;
 }

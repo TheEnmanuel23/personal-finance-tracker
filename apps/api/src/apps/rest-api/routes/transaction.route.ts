@@ -9,11 +9,6 @@ transactionRouter.post(
   transactionController.save.bind(transactionController),
 );
 
-transactionRouter.get(
-  "/by-range-date",
-  transactionController.filterByDateRange.bind(transactionController),
-);
-
 transactionRouter.use("/categories", categoryRouter);
 
 transactionRouter.get(
@@ -44,6 +39,11 @@ transactionRouter.delete(
 transactionRouter.get(
   "/wallet/:id",
   transactionController.getByWalletId.bind(transactionController),
+);
+
+transactionRouter.get(
+  "/wallet/:id/by-date-range",
+  transactionController.filterByDateRange.bind(transactionController),
 );
 
 export { transactionRouter };

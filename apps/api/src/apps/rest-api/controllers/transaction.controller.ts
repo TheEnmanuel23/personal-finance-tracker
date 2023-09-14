@@ -45,6 +45,7 @@ export class TransactionController {
   }
 
   async filterByDateRange(req: Request, res: Response) {
+    const walletId = req.params.id;
     const startYear = Number(req.query.startYear);
     const startMonth = Number(req.query.startMonth);
     const endYear = Number(req.query.endYear);
@@ -53,6 +54,7 @@ export class TransactionController {
     const startDate = new Date(startYear, startMonth - 1, 1);
     const endDate = new Date(endYear, endMonth, 1);
     const transactions = await this.transactionApp.filterByDateRage(
+      walletId,
       startDate,
       endDate,
     );

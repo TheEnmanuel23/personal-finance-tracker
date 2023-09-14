@@ -59,9 +59,10 @@ export class TransactionPrismaRepository implements TransactionRepository {
     });
   }
 
-  async filterByDateRange(startDate: Date, endDate: Date) {
+  async filterByDateRange(walletId: string, startDate: Date, endDate: Date) {
     return await db.transaction.findMany({
       where: {
+        walletId,
         AND: [
           {
             createdAt: {
