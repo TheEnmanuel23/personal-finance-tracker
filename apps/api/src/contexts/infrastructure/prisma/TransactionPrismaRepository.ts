@@ -58,4 +58,26 @@ export class TransactionPrismaRepository implements TransactionRepository {
       where: composedFilters,
     });
   }
+
+  async filterByDateRange(startDate: Date, endDate: Date) {
+    return await db.transaction.findMany({
+      where: {
+        AND: [
+          {
+            createdAt: {
+              gte: startDate,
+            },
+          },
+          {
+            createdAt: {
+              lt: endDate,
+            },
+          },
+        ],
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+  }
 }

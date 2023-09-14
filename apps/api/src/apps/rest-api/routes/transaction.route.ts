@@ -9,6 +9,11 @@ transactionRouter.post(
 );
 
 transactionRouter.get(
+  "/by-range-date",
+  transactionController.filterByDateRange.bind(transactionController),
+);
+
+transactionRouter.get(
   "/filter",
   transactionController.filter.bind(transactionController),
 );

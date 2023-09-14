@@ -44,7 +44,18 @@ export class TransactionController {
     res.json(transactions);
   }
 
-  async filters(req: Request, res: Response) {
-    res.json({ ready: true });
+  async filterByDateRange(req: Request, res: Response) {
+    const startYear = Number(req.query.startYear);
+    const startMonth = Number(req.query.startMonth);
+    const endYear = Number(req.query.endYear);
+    const endMonth = Number(req.query.endMonth);
+
+    const startDate = new Date(startYear, startMonth - 1, 1);
+    const endDate = new Date(endYear, endMonth, 1);
+    const transactions = await this.transactionApp.filterByDateRage(
+      startDate,
+      endDate,
+    );
+    res.json(transactions);
   }
 }

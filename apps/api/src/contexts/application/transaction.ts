@@ -34,4 +34,11 @@ export class TransactionApp {
   async filter(filters: TransactionFilters) {
     return await this.transactionRepository.filter(filters);
   }
+
+  async filterByDateRage(startDate: Date, endDate: Date) {
+    return await this.transactionRepository.filterByDateRange(
+      startDate,
+      endDate,
+    );
+  }
 }

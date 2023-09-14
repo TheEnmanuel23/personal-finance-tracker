@@ -21,4 +21,6 @@ export interface TransactionRepository {
   getAll: () => Promise<Transaction[]>;
 
   filter: (filters: TransactionFilters) => Promise<Transaction[]>;
+
+  filterByDateRange: (startDate: Date, endDate: Date) => Promise<Transaction[]>;
 }
