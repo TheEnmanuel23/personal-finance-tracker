@@ -59,7 +59,11 @@ export class AuthApp {
   }
 
   async validateUser(token: string) {
-    const { id } = await validateJWT(token);
+    const data = await validateJWT(token);
+
+    if (!data) return null;
+
+    const { id } = data;
     const user = await this.userApp.getById(id);
     return user;
   }

@@ -1,5 +1,5 @@
 import type { AuthApp } from "contexts/application/auth";
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 
 export class AuthController {
   constructor(private readonly authApp: AuthApp) {}
@@ -17,5 +17,28 @@ export class AuthController {
   async signUp(req: Request, res: Response) {
     const user = await this.authApp.register(req.body);
     res.status(201).json(user);
+  }
+
+  validateUser(req: Request, res: Response, next: NextFunction) {
+    const bearerToken = req.headers.authorization ?? "";
+
+    const token = bearerToken.split(" ")[1];
+
+    if (!token) {
+      return res.sendStatus(401);
+    }
+
+    this.authApp
+      .validateUser(token)
+      .then((user) => {
+        if (!user) {
+          return res.sendStatus(401);
+        }
+
+        next();
+      })
+      .catch(() => {
+        return res.sendStatus(401);
+      });
   }
 }

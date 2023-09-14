@@ -7,7 +7,7 @@ import { userRouter } from "./routes/user.route";
 import { authRouter } from "./routes/auth.route";
 import { walletRouter } from "./routes/wallet.route";
 import { transactionRouter } from "./routes/transaction.route";
-import { protectedMiddleware } from "./routes/protectedMiddleware";
+import { authController } from "./dependencies/auth.dependency";
 
 export class RestServer {
   private readonly express: Express;
@@ -22,10 +22,22 @@ export class RestServer {
     this.express.use(cors());
 
     // Register routes
-    this.express.use("/user", protectedMiddleware, userRouter);
     this.express.use("/auth", authRouter);
-    this.express.use("/wallet", protectedMiddleware, walletRouter);
-    this.express.use("/transaction", transactionRouter);
+    this.express.use(
+      "/user",
+      authController.validateUser.bind(authController),
+      userRouter,
+    );
+    this.express.use(
+      "/wallet",
+      authController.validateUser.bind(authController),
+      walletRouter,
+    );
+    this.express.use(
+      "/transaction",
+      authController.validateUser.bind(authController),
+      transactionRouter,
+    );
   }
 
   async listen(): Promise<void> {
