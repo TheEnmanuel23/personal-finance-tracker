@@ -1,5 +1,6 @@
 import express from "express";
 import { transactionController } from "../dependencies/transaction.dependency";
+import { categoryController } from "../dependencies/categories.dependency";
 
 const transactionRouter = express.Router();
 
@@ -11,6 +12,11 @@ transactionRouter.post(
 transactionRouter.get(
   "/by-range-date",
   transactionController.filterByDateRange.bind(transactionController),
+);
+
+transactionRouter.get(
+  "/categories",
+  categoryController.getAll.bind(categoryController),
 );
 
 transactionRouter.get(
