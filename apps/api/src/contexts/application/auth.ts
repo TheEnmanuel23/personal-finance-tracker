@@ -23,6 +23,7 @@ export class AuthApp {
     const jwt = await createJWT(user);
     return {
       user: {
+        id: user.id,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -48,9 +49,10 @@ export class AuthApp {
 
     return {
       user: {
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        id: savedUser?.id,
+        email: savedUser?.email,
+        firstName: savedUser?.firstName,
+        lastName: savedUser?.lastName,
       },
       jwt,
     };

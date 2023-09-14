@@ -5,6 +5,7 @@ import type http from "http";
 import cors from "cors";
 import { userRouter } from "./routes/user.route";
 import { authRouter } from "./routes/auth.route";
+import { walletRouter } from "./routes/wallet.route";
 
 export class RestServer {
   private readonly express: Express;
@@ -21,6 +22,7 @@ export class RestServer {
     // Register routes
     this.express.use("/user", userRouter);
     this.express.use("/auth", authRouter);
+    this.express.use("/wallet", walletRouter);
   }
 
   async listen(): Promise<void> {
