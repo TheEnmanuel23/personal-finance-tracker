@@ -23,4 +23,11 @@ export class WalletController {
     const wallets = await this.walletApp.getAll();
     res.json(wallets);
   }
+
+  async getTransactionsByWalletId(req: Request, res: Response) {
+    const walletWithTransactions =
+      await this.walletApp.getTransactionsByWalletId(req.params.id);
+
+    res.json(walletWithTransactions);
+  }
 }

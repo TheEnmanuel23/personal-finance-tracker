@@ -8,4 +8,6 @@ export interface WalletRepository {
   getById: (id: string) => Promise<Wallet | null>;
 
   getAll: () => Promise<Wallet[]>;
+
+  getTransactionsByWalletId: (walletId: string) => Promise<Wallet | null>;
 }

@@ -28,7 +28,12 @@ export class WalletPrismaRepository implements WalletRepository {
     return await db.wallet.findMany();
   }
 
-  get(id: string) {
-    return db.wallet.findUnique({ where: { id } });
+  async getTransactionsByWalletId(walletId: string) {
+    const walletWithTransactions = await db.wallet.findFirst({
+      where: { id: walletId },
+      include: { transactions: { include: { category: true } } },
+    });
+
+    return walletWithTransactions;
   }
 }
