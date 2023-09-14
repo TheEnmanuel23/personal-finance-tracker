@@ -31,7 +31,12 @@ export class WalletPrismaRepository implements WalletRepository {
   async getTransactionsByWalletId(walletId: string) {
     const walletWithTransactions = await db.wallet.findFirst({
       where: { id: walletId },
-      include: { transactions: { include: { category: true } } },
+      include: {
+        transactions: {
+          orderBy: { createdAt: "asc" },
+          include: { category: true },
+        },
+      },
     });
 
     return walletWithTransactions;

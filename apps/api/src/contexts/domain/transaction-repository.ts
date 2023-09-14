@@ -3,7 +3,7 @@ import type { Transaction, TransactionType } from "@prisma/client";
 export interface TransactionFilters {
   walletId?: string;
   createdAt?: Date;
-  category?: string;
+  categoryId?: string;
   type?: TransactionType;
 }
 

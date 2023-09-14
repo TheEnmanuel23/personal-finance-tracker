@@ -40,7 +40,11 @@ export class TransactionController {
   }
 
   async filter(req: Request, res: Response) {
-    const transactions = await this.transactionApp.filter(req.body);
+    const transactions = await this.transactionApp.filter(req.query);
     res.json(transactions);
+  }
+
+  async filters(req: Request, res: Response) {
+    res.json({ ready: true });
   }
 }

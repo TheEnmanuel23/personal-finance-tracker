@@ -9,6 +9,11 @@ transactionRouter.post(
 );
 
 transactionRouter.get(
+  "/filter",
+  transactionController.filter.bind(transactionController),
+);
+
+transactionRouter.get(
   "/",
   transactionController.getAll.bind(transactionController),
 );
@@ -29,13 +34,8 @@ transactionRouter.delete(
 );
 
 transactionRouter.get(
-  "/:walletId",
+  "/wallet/:id",
   transactionController.getByWalletId.bind(transactionController),
-);
-
-transactionRouter.get(
-  "/filter",
-  transactionController.filter.bind(transactionController),
 );
 
 export { transactionRouter };

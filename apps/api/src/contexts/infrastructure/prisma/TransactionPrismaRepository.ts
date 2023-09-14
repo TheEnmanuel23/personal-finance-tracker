@@ -47,8 +47,10 @@ export class TransactionPrismaRepository implements TransactionRepository {
   async filter(filters: TransactionFilters) {
     const composedFilters = {
       ...(filters.walletId && { walletId: filters.walletId }),
-      ...(filters.createdAt && { createdAt: filters.createdAt }),
-      ...(filters.category && { categoryId: filters.category }),
+      ...(filters.createdAt && {
+        createdAt: { gte: new Date(filters.createdAt) },
+      }),
+      ...(filters.categoryId && { categoryId: filters.categoryId }),
       ...(filters.type && { type: filters.type }),
     };
 
