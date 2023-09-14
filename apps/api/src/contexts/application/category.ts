@@ -1,3 +1,4 @@
+import type { TransactionType } from "@prisma/client";
 import type { CategoryRepository } from "../domain/category-repository";
 
 export class CategoryApp {
@@ -5,5 +6,9 @@ export class CategoryApp {
 
   async getAll() {
     return await this.categoryRepository.getAll();
+  }
+
+  async getByType(type: TransactionType) {
+    return await this.categoryRepository.getByType(type);
   }
 }
