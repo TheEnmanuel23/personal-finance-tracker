@@ -7,6 +7,7 @@ import { userRouter } from "./routes/user.route";
 import { authRouter } from "./routes/auth.route";
 import { walletRouter } from "./routes/wallet.route";
 import { transactionRouter } from "./routes/transaction.route";
+import { protectedMiddleware } from "./routes/protectedMiddleware";
 
 export class RestServer {
   private readonly express: Express;
@@ -21,9 +22,9 @@ export class RestServer {
     this.express.use(cors());
 
     // Register routes
-    this.express.use("/user", userRouter);
+    this.express.use("/user", protectedMiddleware, userRouter);
     this.express.use("/auth", authRouter);
-    this.express.use("/wallet", walletRouter);
+    this.express.use("/wallet", protectedMiddleware, walletRouter);
     this.express.use("/transaction", transactionRouter);
   }
 

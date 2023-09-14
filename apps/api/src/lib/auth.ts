@@ -6,10 +6,10 @@ export const hashPassword = async (password: string) =>
 
 export const comparePasswords = async (
   plainTextPassword: string,
-  hashedPassword: string
+  hashedPassword: string,
 ) => await bcrypt.compare(plainTextPassword, hashedPassword);
 
-export const createJWT = async (user: { id: string, email: string }) => {
+export const createJWT = async (user: { id: string; email: string }) => {
   const iat = Math.floor(Date.now() / 1000);
   const exp = iat + 60 * 60 * 24 * 7;
 
@@ -24,7 +24,7 @@ export const createJWT = async (user: { id: string, email: string }) => {
 export const validateJWT = async (jwt: string) => {
   const { payload } = await jwtVerify(
     jwt,
-    new TextEncoder().encode(process.env.JWT_SECRET)
+    new TextEncoder().encode(process.env.JWT_SECRET),
   );
 
   return payload.payload as any;
