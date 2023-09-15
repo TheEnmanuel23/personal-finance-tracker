@@ -6,6 +6,23 @@ import { useState } from "react";
 import Modal from "../../components/Modal";
 import AddTransaction from "./components/AddTransaction";
 
+const getTotals = (transactions = []) => {
+  const totals = transactions.reduce(
+    (acc, curr) => {
+      let { totalIncomes, totalExpenses } = acc;
+
+      if (curr.type === "EXPENSE") {
+        totalExpenses += curr.amount;
+      } else {
+        totalIncomes += curr.amount;
+      }
+      return { totalExpenses, totalIncomes };
+    },
+    { totalExpenses: 0, totalIncomes: 0 },
+  );
+  return totals;
+};
+
 const Wallet = () => {
   const auth = useAuth();
   const params = useParams();
@@ -40,45 +57,62 @@ const Wallet = () => {
       </div>
     );
   } else {
-    content = (
-      <ul>
-        {wallet.transactions.map((transaction) => {
-          const date = getFormattedDate(transaction.createdAt);
+    const totals = getTotals(wallet.transactions);
+    const diff = totals.totalIncomes - totals.totalExpenses;
 
-          return (
-            <li key={transaction.id}>
-              <div>
-                <div className="hover:cursor-pointer">
-                  <p>
-                    {transaction.type} - {transaction.category.name}
-                  </p>
-                  <div>
-                    <span className="text-xl font-bold">
-                      {date.dayOfTheMonth}{" "}
-                    </span>
-                    <span className="text-xs">
-                      {date.dayOfWeek}
-                      {", "}
-                    </span>
-                    <span className="text-xs">{date.month} </span>
-                    <span className="text-xs">{date.year}</span>
+    content = (
+      <div>
+        <div className="mb-10">
+          <p>
+            Inflow:{" "}
+            <span className="text-blue-800">+{totals.totalIncomes}</span>
+          </p>
+          <p>
+            Outflow:{" "}
+            <span className="text-red-800">-{totals.totalExpenses}</span>
+          </p>
+          <hr className="" />
+          <p className={diff < 0 ? "text-red-800" : "text-blue-800"}>{diff}</p>
+        </div>
+        <ul>
+          {wallet.transactions.map((transaction) => {
+            const date = getFormattedDate(transaction.createdAt);
+
+            return (
+              <li key={transaction.id}>
+                <div>
+                  <div className="hover:cursor-pointer">
+                    <p>
+                      {transaction.type} - {transaction.category.name}
+                    </p>
+                    <div>
+                      <span className="text-xl font-bold">
+                        {date.dayOfTheMonth}{" "}
+                      </span>
+                      <span className="text-xs">
+                        {date.dayOfWeek}
+                        {", "}
+                      </span>
+                      <span className="text-xs">{date.month} </span>
+                      <span className="text-xs">{date.year}</span>
+                    </div>
                   </div>
+                  <p
+                    className={
+                      transaction.type === "EXPENSE"
+                        ? "text-red-800"
+                        : "text-blue-800"
+                    }
+                  >
+                    {transaction.type === "EXPENSE" && "-"}
+                    {wallet.currency} {transaction.amount}
+                  </p>
                 </div>
-                <p
-                  className={
-                    transaction.type === "EXPENSE"
-                      ? "text-red-800"
-                      : "text-blue-800"
-                  }
-                >
-                  {transaction.type === "EXPENSE" && "-"}
-                  {wallet.currency} {transaction.amount}
-                </p>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     );
   }
 
