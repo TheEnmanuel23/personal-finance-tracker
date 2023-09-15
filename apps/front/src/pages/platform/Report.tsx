@@ -153,6 +153,22 @@ const Report = () => {
             style={{ cursor: "pointer" }}
           >
             <PieChart width={400} height={400}>
+              <Tooltip
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <div className="bg-white p-1 rounded">
+                        <p>
+                          {transactions.wallet.currency}
+                          {payload[0].value}
+                        </p>
+                      </div>
+                    );
+                  }
+
+                  return null;
+                }}
+              />
               <Legend verticalAlign="bottom" height={36} />
               <Pie
                 data={transactions?.incomes || []}
@@ -189,6 +205,23 @@ const Report = () => {
           </div>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart width={400} height={400}>
+              <Tooltip
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <div className="bg-white p-1 rounded">
+                        <p>
+                          {transactions.wallet.currency}
+                          {payload[0].value}
+                        </p>
+                      </div>
+                    );
+                  }
+
+                  return null;
+                }}
+              />
+
               <Legend verticalAlign="bottom" height={36} />
               <Pie
                 data={transactions?.expenses || []}
