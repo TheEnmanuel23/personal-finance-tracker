@@ -3,12 +3,18 @@ import { Link, useParams } from "react-router-dom";
 import {
   PieChart,
   Pie,
-  Sector,
   Cell,
   ResponsiveContainer,
   Legend,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
 } from "recharts";
 import { useAuth } from "../../hooks/use-auth";
+import { useState } from "react";
 
 const groupTransactions = (transactions: []) => {
   const groups = {};
@@ -32,14 +38,7 @@ const groupTransactions = (transactions: []) => {
   return groups;
 };
 
-const data = [
-  { name: "Group A", total: 400 },
-  { name: "Group B", total: 300 },
-  { name: "Group C", total: 300 },
-  { name: "Group D", total: 200 },
-];
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#F25A5A"];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
@@ -71,6 +70,8 @@ const renderCustomizedLabel = ({
 const Report = () => {
   const auth = useAuth();
   const { id: walletId } = useParams();
+  const [panel, setPanel] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const { data: transactions, isLoading } = useQuery(
     `wallet/${walletId}`,
@@ -120,7 +121,7 @@ const Report = () => {
   if (isLoading) {
     return <p>Loading...</p>;
   }
-
+  console.log(selectedCategory);
   const netIncome = transactions?.totalIncomes - transactions?.totalExpenses;
   return (
     <div className="">
@@ -131,64 +132,130 @@ const Report = () => {
           {netIncome > 0 ? "+" : "-"} {transactions.wallet.currency} {netIncome}
         </p>
       </div>
-      <div className="flex justify-between">
-        <div className="w-[200px] h-[200px]">
+      <div className="flex">
+        <div
+          className="h-[300px] w-[50%] cursor-pointer hover:bg-gray-100 pt-10"
+          onClick={() => {
+            setPanel("incomes");
+            setSelectedCategory(null);
+          }}
+        >
           <div className="flex justify-center">
             <p>Income</p>
             <p>
               +{transactions.wallet.currency} {transactions?.totalIncomes}
             </p>
           </div>
-          <PieChart width={400} height={400}>
-            <Pie
-              data={transactions?.incomes || []}
-              cx="50%"
-              cy="50%"
-              labelLine={false}
-              label={renderCustomizedLabel}
-              outerRadius={80}
-              fill="#8884d8"
-              dataKey="total"
-            >
-              {data.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
-              ))}
-            </Pie>
-            <Legend verticalAlign="bottom" height={36} />
-          </PieChart>
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+            style={{ cursor: "pointer" }}
+          >
+            <PieChart width={400} height={400}>
+              <Legend verticalAlign="bottom" height={36} />
+              <Pie
+                data={transactions?.incomes || []}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                label={renderCustomizedLabel}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="total"
+              >
+                {transactions?.incomes.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
         </div>
-        <div className="w-[200px] h-[200px]">
+        <div
+          className="h-[300px] w-[50%] cursor-pointer hover:bg-gray-100 pt-10"
+          onClick={() => {
+            setPanel("expenses");
+            setSelectedCategory(null);
+          }}
+        >
           <div className="flex justify-center">
             <p>Expenses</p>
             <p>
               -{transactions.wallet.currency} {transactions?.totalExpenses}
             </p>
           </div>
-          <PieChart width={400} height={400}>
-            <Pie
-              data={transactions?.expenses || []}
-              cx="50%"
-              cy="50%"
-              labelLine={false}
-              label={renderCustomizedLabel}
-              outerRadius={80}
-              fill="#8884d8"
-              dataKey="total"
-            >
-              {data.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
-              ))}
-            </Pie>
-            <Legend verticalAlign="bottom" height={36} />
-          </PieChart>
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart width={400} height={400}>
+              <Legend verticalAlign="bottom" height={36} />
+              <Pie
+                data={transactions?.expenses || []}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                label={renderCustomizedLabel}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="total"
+              >
+                {transactions?.expenses.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
         </div>
       </div>
+      {panel && (
+        <div className="mt-10">
+          <h3>{panel.toUpperCase()}</h3>
+          <p>
+            {transactions.wallet.currency}
+            {
+              transactions[
+                panel === "incomes" ? "totalIncomes" : "totalExpenses"
+              ]
+            }
+          </p>
+          <ul>
+            {transactions[panel].map((transactionCategory) => (
+              <li
+                key={transactionCategory.id}
+                className={`hover:bg-gray-100 cursor-pointer ${
+                  selectedCategory?.id === transactionCategory.id
+                    ? "bg-gray-200"
+                    : "bg-white"
+                }`}
+                onClick={() => setSelectedCategory(transactionCategory)}
+              >
+                <hr />
+                {transactionCategory.name} {transactions.wallet.currency}{" "}
+                {transactionCategory.total}
+              </li>
+            ))}
+          </ul>
+          {selectedCategory && (
+            <div className="my-10 h-[200px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  width={70}
+                  height={40}
+                  data={selectedCategory.transactions}
+                >
+                  <Bar
+                    dataKey="amount"
+                    fill={panel === "expenses" ? "#F25A5A" : "#00C49F"}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
