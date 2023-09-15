@@ -10,6 +10,7 @@ import { RequireAuth } from "./hooks/use-auth";
 import CreateWallet from "./pages/platform/CreateWallet";
 import Root from "./pages/platform/Root";
 import Wallet from "./pages/platform/Wallet";
+import Report from "./pages/platform/Report";
 
 const queryClient = new QueryClient();
 
@@ -35,8 +36,12 @@ const router = createBrowserRouter([
         element: <CreateWallet />,
       },
       {
-        path: "wallets/:id",
+        path: "wallet/:id",
         element: <Wallet />,
+      },
+      {
+        path: "wallet/:id/report",
+        element: <Report />,
       },
     ],
   },

@@ -27,7 +27,7 @@ const Wallets = () => {
         <ul>
           {data.map((wallet) => (
             <li key={wallet.id}>
-              <Link className="underline" to={`/wallets/${wallet.id}`}>
+              <Link className="underline" to={`/wallet/${wallet.id}`}>
                 {wallet.name}
               </Link>
             </li>

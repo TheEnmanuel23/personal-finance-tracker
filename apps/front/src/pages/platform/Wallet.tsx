@@ -172,6 +172,12 @@ const Wallet = () => {
         >
           Add Transaction
         </button>
+        <Link
+          className="hover:underline rounded text-green-800 uppercase text-sm"
+          to={`/wallet/${params.id}/report`}
+        >
+          View Report for this period
+        </Link>
       </div>
       <div>
         <div>Transactions</div>
