@@ -1,12 +1,11 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import { Button } from "ui";
+// import reactLogo from "./assets/react.svg";
+// import viteLogo from "/vite.svg";
+// import { Button } from "ui";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import Home from "./pages/platform/home";
-import Login from "./pages/auth/login";
-import Registration from "./pages/auth/registration";
+import Home from "./pages/platform/Home";
+import SignIn from "./pages/auth/SignIn";
+import SignUp from "./pages/auth/SignUp";
 import { RequireAuth } from "./hooks/use-auth";
 
 const queryClient = new QueryClient();
@@ -22,11 +21,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/signin",
-    element: <Login />,
+    element: <SignIn />,
   },
   {
     path: "/signup",
-    element: <Registration />,
+    element: <SignUp />,
   },
 ]);
 
