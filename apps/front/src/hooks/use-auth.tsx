@@ -32,7 +32,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          throw new Error(res.status);
+        }
+        return res.json();
+      })
       .then((data) => {
         setData(data);
         localStorage.setItem("userData", JSON.stringify(data));

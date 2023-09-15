@@ -8,7 +8,7 @@ const Login = () => {
   const navigate = useNavigate();
   const auth = useAuth();
 
-  const { mutate, status } = useMutation(auth.signin, {
+  const { mutate, status, isError } = useMutation(auth.signin, {
     onSuccess: () => navigate("/"),
   });
 
@@ -67,6 +67,10 @@ const Login = () => {
           Sign In
         </button>
       </form>
+
+      {isError && (
+        <p className="text-red-800 text-xs text-bold">Invalid user</p>
+      )}
     </div>
   );
 };
