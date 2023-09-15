@@ -5,6 +5,7 @@ import { getFormattedDate } from "../../utils/date";
 import { useState } from "react";
 import Modal from "../../components/Modal";
 import AddTransaction from "./components/AddTransaction";
+import UpdateTransaction from "./components/UpdateTransaction";
 
 const getTotals = (transactions = []) => {
   const totals = transactions.reduce(
@@ -49,6 +50,8 @@ const Wallet = () => {
   const auth = useAuth();
   const params = useParams();
   const [isOpen, setIsOpen] = useState(false);
+  const [updateTransactionModal, setUpdateTransactionModal] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
 
   function closeModal() {
     setIsOpen(false);
@@ -104,6 +107,7 @@ const Wallet = () => {
             const item = groups[groupId];
             return (
               <li>
+                <hr />
                 <h3 className="text-xl font-bold">
                   {item.name} - {item.total}
                 </h3>
@@ -114,7 +118,13 @@ const Wallet = () => {
                     return (
                       <li key={transaction.id}>
                         <div>
-                          <div className="hover:cursor-pointer">
+                          <div
+                            className="hover:cursor-pointer"
+                            onClick={() => {
+                              setSelectedTransaction(transaction);
+                              setUpdateTransactionModal(true);
+                            }}
+                          >
                             <div>
                               <span className="text-xl font-bold">
                                 {date.dayOfTheMonth}{" "}
@@ -146,7 +156,6 @@ const Wallet = () => {
             );
           })}
         </ul>
-        <hr />
       </div>
     );
   }
@@ -174,6 +183,20 @@ const Wallet = () => {
         </div>
 
         <AddTransaction walletId={wallet.id} onSubmit={closeModal} />
+      </Modal>
+      <Modal
+        title="Update Transaction"
+        closeModal={() => setUpdateTransactionModal(false)}
+        isOpen={updateTransactionModal}
+      >
+        <div className="mt-2">
+          <h1>Wallet: {wallet.name}</h1>
+        </div>
+
+        <UpdateTransaction
+          transaction={selectedTransaction}
+          onSubmit={() => setUpdateTransactionModal(false)}
+        />
       </Modal>
     </div>
   );
