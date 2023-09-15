@@ -23,6 +23,28 @@ const getTotals = (transactions = []) => {
   return totals;
 };
 
+const groupTransactions = (transactions: []) => {
+  const groups = {};
+
+  transactions.forEach((transaction) => {
+    if (groups[transaction.category.id]) {
+      groups[`${transaction.category.id}`].total += transaction.amount;
+      groups[`${transaction.category.id}`].transactions = [
+        ...groups[transaction.category.id].transactions,
+        transaction,
+      ];
+    } else {
+      groups[`${transaction.category.id}`] = {
+        ...transaction.category,
+        transactions: [transaction],
+        total: transaction.amount,
+      };
+    }
+  });
+
+  return groups;
+};
+
 const Wallet = () => {
   const auth = useAuth();
   const params = useParams();
@@ -59,6 +81,9 @@ const Wallet = () => {
   } else {
     const totals = getTotals(wallet.transactions);
     const diff = totals.totalIncomes - totals.totalExpenses;
+    const groups = groupTransactions(wallet.transactions);
+
+    const groupsKeys = Object.keys(groups);
 
     content = (
       <div>
@@ -74,44 +99,54 @@ const Wallet = () => {
           <hr className="" />
           <p className={diff < 0 ? "text-red-800" : "text-blue-800"}>{diff}</p>
         </div>
-        <ul>
-          {wallet.transactions.map((transaction) => {
-            const date = getFormattedDate(transaction.createdAt);
-
+        <ul className="flex flex-col gap-4">
+          {groupsKeys.map((groupId) => {
+            const item = groups[groupId];
             return (
-              <li key={transaction.id}>
-                <div>
-                  <div className="hover:cursor-pointer">
-                    <p>
-                      {transaction.type} - {transaction.category.name}
-                    </p>
-                    <div>
-                      <span className="text-xl font-bold">
-                        {date.dayOfTheMonth}{" "}
-                      </span>
-                      <span className="text-xs">
-                        {date.dayOfWeek}
-                        {", "}
-                      </span>
-                      <span className="text-xs">{date.month} </span>
-                      <span className="text-xs">{date.year}</span>
-                    </div>
-                  </div>
-                  <p
-                    className={
-                      transaction.type === "EXPENSE"
-                        ? "text-red-800"
-                        : "text-blue-800"
-                    }
-                  >
-                    {transaction.type === "EXPENSE" && "-"}
-                    {wallet.currency} {transaction.amount}
-                  </p>
-                </div>
+              <li>
+                <h3 className="text-xl font-bold">
+                  {item.name} - {item.total}
+                </h3>
+                <ul className="flex flex-col gap-3">
+                  {item.transactions.map((transaction) => {
+                    const date = getFormattedDate(transaction.createdAt);
+
+                    return (
+                      <li key={transaction.id}>
+                        <div>
+                          <div className="hover:cursor-pointer">
+                            <div>
+                              <span className="text-xl font-bold">
+                                {date.dayOfTheMonth}{" "}
+                              </span>
+                              <span className="text-xs">
+                                {date.dayOfWeek}
+                                {", "}
+                              </span>
+                              <span className="text-xs">{date.month} </span>
+                              <span className="text-xs">{date.year}</span>
+                            </div>
+                          </div>
+                          <p
+                            className={
+                              transaction.type === "EXPENSE"
+                                ? "text-red-800"
+                                : "text-blue-800"
+                            }
+                          >
+                            {transaction.type === "EXPENSE" && "-"}
+                            {wallet.currency} {transaction.amount}
+                          </p>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
               </li>
             );
           })}
         </ul>
+        <hr />
       </div>
     );
   }
