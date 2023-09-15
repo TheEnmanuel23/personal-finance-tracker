@@ -12,6 +12,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  LabelList,
 } from "recharts";
 import { useAuth } from "../../hooks/use-auth";
 import { useState } from "react";
@@ -121,7 +122,7 @@ const Report = () => {
   if (isLoading) {
     return <p>Loading...</p>;
   }
-  console.log(selectedCategory);
+
   const netIncome = transactions?.totalIncomes - transactions?.totalExpenses;
   return (
     <div className="">
@@ -239,17 +240,26 @@ const Report = () => {
             ))}
           </ul>
           {selectedCategory && (
-            <div className="my-10 h-[200px] w-full">
+            <div className="mt-10 h-[300px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   width={70}
-                  height={40}
+                  width={730}
+                  height={250}
                   data={selectedCategory.transactions}
                 >
                   <Bar
                     dataKey="amount"
                     fill={panel === "expenses" ? "#F25A5A" : "#00C49F"}
-                  />
+                  >
+                    <LabelList
+                      dataKey="amount"
+                      position="inside"
+                      formatter={(amount) => {
+                        return `${transactions.wallet.currency}${amount}`;
+                      }}
+                    />
+                  </Bar>
                 </BarChart>
               </ResponsiveContainer>
             </div>
