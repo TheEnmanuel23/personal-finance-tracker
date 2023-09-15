@@ -16,6 +16,9 @@ export class AuthController {
 
   async signUp(req: Request, res: Response) {
     const user = await this.authApp.register(req.body);
+    if (!user) {
+      return res.sendStatus(409);
+    }
     res.status(201).json(user);
   }
 

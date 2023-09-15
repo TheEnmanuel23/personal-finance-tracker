@@ -38,24 +38,28 @@ export class AuthApp {
     lastName: string;
     password: string;
   }) {
-    const newUser = { ...user };
-    newUser.password = await hashPassword(user.password);
-    const savedUser = await this.userApp.save(newUser);
+    try {
+      const newUser = { ...user };
+      newUser.password = await hashPassword(user.password);
+      const savedUser = await this.userApp.save(newUser);
 
-    const jwt = await createJWT({
-      id: savedUser?.id ?? "",
-      email: savedUser?.email ?? "",
-    });
+      const jwt = await createJWT({
+        id: savedUser?.id ?? "",
+        email: savedUser?.email ?? "",
+      });
 
-    return {
-      user: {
-        id: savedUser?.id,
-        email: savedUser?.email,
-        firstName: savedUser?.firstName,
-        lastName: savedUser?.lastName,
-      },
-      jwt,
-    };
+      return {
+        user: {
+          id: savedUser?.id,
+          email: savedUser?.email,
+          firstName: savedUser?.firstName,
+          lastName: savedUser?.lastName,
+        },
+        jwt,
+      };
+    } catch (err) {
+      return null;
+    }
   }
 
   async validateUser(token: string) {

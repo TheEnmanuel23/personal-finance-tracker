@@ -70,7 +70,7 @@ const Registration = () => {
           <span className="text-sm text-bold">First Name</span>
           <input
             className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2  pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
-            placeholder="example@domain.com"
+            placeholder="first name"
             type="text"
             name="firstName"
             onChange={handleChange}
@@ -84,7 +84,7 @@ const Registration = () => {
           <span className="text-sm text-bold">Last Name</span>
           <input
             className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2  pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
-            placeholder="example@domain.com"
+            placeholder="last name"
             type="text"
             name="lastName"
             onChange={handleChange}
@@ -103,7 +103,7 @@ const Registration = () => {
       </form>
 
       {isError && (
-        <p className="text-red-800 text-xs text-bold">Invalid user</p>
+        <p className="text-red-800 text-xs text-bold">User already exists</p>
       )}
 
       <Link to="/signin" className="text-xs text-blue-800 underline">

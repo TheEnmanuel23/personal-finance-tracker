@@ -27,7 +27,7 @@ const fetcher = async (url: string, user: User) => {
     },
   })
     .then((res) => {
-      if (res.status === 401) {
+      if (res.status === 401 || res.status === 409) {
         throw new Error(res.status.toString());
       }
       return res.json();
