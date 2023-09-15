@@ -8,6 +8,10 @@ walletRouter.put("/:id", walletController.update.bind(walletController));
 walletRouter.get("/", walletController.getAll.bind(walletController));
 walletRouter.get("/:id", walletController.getById.bind(walletController));
 walletRouter.get(
+  "/owner/:id",
+  walletController.getWalletsByOwner.bind(walletController),
+);
+walletRouter.get(
   "/:id/transactions",
   walletController.getTransactionsByWalletId.bind(walletController),
 );

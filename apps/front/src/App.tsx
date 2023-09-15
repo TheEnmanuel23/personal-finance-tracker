@@ -3,10 +3,13 @@
 // import { Button } from "ui";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import Home from "./pages/platform/Home";
+import Wallets from "./pages/platform/Wallets";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import { RequireAuth } from "./hooks/use-auth";
+import CreateWallet from "./pages/platform/CreateWallet";
+import Root from "./pages/platform/Root";
+import Wallet from "./pages/platform/Wallet";
 
 const queryClient = new QueryClient();
 
@@ -15,9 +18,27 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <RequireAuth>
-        <Home />
+        <Root />
       </RequireAuth>
     ),
+    children: [
+      {
+        path: "/",
+        element: <Wallets />,
+      },
+      {
+        path: "wallets",
+        element: <Wallets />,
+      },
+      {
+        path: "add-wallet",
+        element: <CreateWallet />,
+      },
+      {
+        path: "wallets/:id",
+        element: <Wallet />,
+      },
+    ],
   },
   {
     path: "/signin",

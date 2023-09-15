@@ -57,6 +57,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signout = () => {
     localStorage.removeItem("userData");
+    setData(null);
   };
 
   return (

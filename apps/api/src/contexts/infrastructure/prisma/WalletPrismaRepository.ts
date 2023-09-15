@@ -41,4 +41,14 @@ export class WalletPrismaRepository implements WalletRepository {
 
     return walletWithTransactions;
   }
+
+  async getWalletsByOwner(ownerId: string) {
+    const wallets = await db.wallet.findMany({
+      where: {
+        ownerId,
+      },
+    });
+
+    return wallets;
+  }
 }

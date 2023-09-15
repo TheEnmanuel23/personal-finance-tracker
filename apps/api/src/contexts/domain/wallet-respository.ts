@@ -10,4 +10,6 @@ export interface WalletRepository {
   getAll: () => Promise<Wallet[]>;
 
   getTransactionsByWalletId: (walletId: string) => Promise<Wallet | null>;
+
+  getWalletsByOwner: (ownerId: string) => Promise<Wallet[]>;
 }

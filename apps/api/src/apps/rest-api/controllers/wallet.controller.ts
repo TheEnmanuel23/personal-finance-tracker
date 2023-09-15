@@ -30,4 +30,9 @@ export class WalletController {
 
     res.json(walletWithTransactions);
   }
+
+  async getWalletsByOwner(req: Request, res: Response) {
+    const wallets = await this.walletApp.getWalletsByOwner(req.params.id);
+    res.json(wallets);
+  }
 }

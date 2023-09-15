@@ -23,4 +23,8 @@ export class WalletApp {
   async getTransactionsByWalletId(walletId: string) {
     return await this.walletRepository.getTransactionsByWalletId(walletId);
   }
+
+  async getWalletsByOwner(ownerId: string) {
+    return await this.walletRepository.getWalletsByOwner(ownerId);
+  }
 }
