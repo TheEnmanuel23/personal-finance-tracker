@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "react-query";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/use-auth";
 
 const Login = () => {
@@ -31,7 +31,7 @@ const Login = () => {
   return (
     <div className="flex justify-center flex-col items-center pt-20 gap-5">
       <h1 className="text-2xl">Login</h1>
-      <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-8 w-[300px]" onSubmit={handleSubmit}>
         <label className="relative block">
           <span className="text-sm text-bold">Email</span>
           <input
@@ -71,6 +71,10 @@ const Login = () => {
       {isError && (
         <p className="text-red-800 text-xs text-bold">Invalid user</p>
       )}
+
+      <Link to="/signup" className="text-xs text-blue-800 underline">
+        Create account
+      </Link>
     </div>
   );
 };

@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import Home from "./pages/platform/home";
 import Login from "./pages/auth/login";
 import Registration from "./pages/auth/registration";
-import { AuthProvider, RequireAuth } from "./hooks/use-auth";
+import { RequireAuth } from "./hooks/use-auth";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/singup",
+    path: "/signup",
     element: <Registration />,
   },
 ]);
