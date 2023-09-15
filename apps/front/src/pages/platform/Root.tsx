@@ -1,5 +1,6 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/use-auth";
+import { Button, Typography } from "ui";
 
 const Root = () => {
   const auth = useAuth();
@@ -12,17 +13,15 @@ const Root = () => {
 
   return (
     <div className="container mx-auto py-10">
-      <div className="flex justify-between">
-        <h1>Welcome {auth?.data?.user.firstName}!</h1>
-
-        <button
-          className="btn bg-indigo-500 hover:bg-indigo-700 rounded text-white p-2"
-          onClick={handleSignOut}
-        >
+      <div className="flex justify-between items-center">
+        <Typography as="h2">Welcome! {auth?.data?.user.firstName}</Typography>
+        <Button variant="indigo" onClick={handleSignOut}>
           Sign Out
-        </button>
+        </Button>
       </div>
-      <Outlet />
+      <div className="pt-10">
+        <Outlet />
+      </div>
     </div>
   );
 };

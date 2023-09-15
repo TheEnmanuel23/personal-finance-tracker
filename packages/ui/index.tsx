@@ -1,3 +1,4 @@
 // component exports
-export { Card } from "./card";
-export { Button } from "./Button";
+import "./tailwind.css";
+export { Button } from "./components/Button";
+export { Typography } from "./components/Typography";
