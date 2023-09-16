@@ -1,11 +1,10 @@
 import { useState } from "react";
-import Select from "../../../components/Select";
 import useCategories from "../../../queries/useCategories";
 import {
   useDeleteTransaction,
   useMutateTransaction,
 } from "../../../queries/useMutateTransaction";
-import { Button, Field } from "ui";
+import { Button, Field, Select } from "ui";
 
 const transactionTypes = [
   { name: "Expense", value: "EXPENSE" },

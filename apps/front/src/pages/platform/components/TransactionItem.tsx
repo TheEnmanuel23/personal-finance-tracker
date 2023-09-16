@@ -1,5 +1,4 @@
-import { Typography } from "ui";
-import Modal from "../../../components/Modal";
+import { Modal, Typography } from "ui";
 import { useState } from "react";
 import { getFormattedDate } from "../../../utils/date";
 import clsx from "clsx";

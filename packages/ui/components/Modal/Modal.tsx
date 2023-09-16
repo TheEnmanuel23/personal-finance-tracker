@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 
-const Modal = ({
+export const Modal = ({
   isOpen,
   closeModal,
   title,
@@ -54,5 +54,3 @@ const Modal = ({
     </Transition>
   );
 };
-
-export default Modal;

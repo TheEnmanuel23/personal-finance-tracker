@@ -7,7 +7,7 @@ interface Selected {
   value: string;
 }
 
-function Select({
+export function Select({
   onSelect,
   selected,
   options,
@@ -71,5 +71,3 @@ function Select({
     </Listbox>
   );
 }
-
-export default Select;

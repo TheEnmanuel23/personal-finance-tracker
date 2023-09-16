@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import Modal from "../../components/Modal";
-import { Button, Typography } from "ui";
+import { Button, Modal, Typography } from "ui";
 import GoBackLink from "./components/GoBackLink";
 import WalletSummary from "./components/WalletSummary";
 import { useState } from "react";
