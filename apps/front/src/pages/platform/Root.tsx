@@ -12,15 +12,17 @@ const Root = () => {
   };
 
   return (
-    <div className="container mx-auto py-10">
-      <div className="flex justify-between items-center">
-        <Typography as="h2">Welcome! {auth?.data?.user.firstName}</Typography>
-        <Button variant="indigo" onClick={handleSignOut}>
-          Sign Out
-        </Button>
-      </div>
-      <div className="pt-10">
-        <Outlet />
+    <div className="flex justify-center pt-10">
+      <div className="px-10 w-[700px] py-10 bg-white rounded-lg">
+        <div className="flex justify-between items-center">
+          <Typography as="h2">Welcome! {auth?.data?.user.firstName}</Typography>
+          <Button variant="indigo" onClick={handleSignOut}>
+            Sign Out
+          </Button>
+        </div>
+        <div className="pt-10">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

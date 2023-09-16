@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link as RRLink } from "react-router-dom";
 import clsx from "clsx";
 
-const CustomLink = ({
+const Link = ({
   to,
   children,
   className,
@@ -14,10 +14,10 @@ const CustomLink = ({
   const classNames = clsx("text-base", className);
 
   return (
-    <Link className={classNames} to={to}>
+    <RRLink className={classNames} to={to}>
       {children}
-    </Link>
+    </RRLink>
   );
 };
 
-export default CustomLink;
+export default Link;
