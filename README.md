@@ -23,6 +23,7 @@ This project is a [Monorepo](https://monorepo.tools/) solution, and it uses [Tur
 - [PostgreSQL](https://www.postgresql.org/) to store data
 - [Railway](https://railway.app/) as cloud service to use [PostgreSQL](https://www.postgresql.org/)
 - [Prisma](https://www.prisma.io/) as ORM
+- [Jest](https://jestjs.io/) for unit tests
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
@@ -63,6 +64,17 @@ npm run storybook
 I have added two `env` files, normally we should not upload those files, but I did so for testing purposes.
 
 - /apps/api/.env
+
+## Useful Links
+
+Learn more about the power of Turborepo:
+
+- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
+- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
+- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
+- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
+- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
+- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
 - /apps/front/.env
 
 **I'll delete the database I used for this challenge once you have tested the challenge**
