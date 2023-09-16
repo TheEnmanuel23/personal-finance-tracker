@@ -24,6 +24,7 @@ This project is a [Monorepo](https://monorepo.tools/) solution, and it uses [Tur
 - [Railway](https://railway.app/) as cloud service to use [PostgreSQL](https://www.postgresql.org/)
 - [Prisma](https://www.prisma.io/) as ORM
 - [Jest](https://jestjs.io/) for unit tests
+- [Recharts](https://recharts.org/en-US/) to add some charts
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
