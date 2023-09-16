@@ -49,9 +49,36 @@ pnpm build
 
 To develop all apps and packages, run the following command:
 
+1 - Clone the repo
+
+```
+git clone git@github.com:TheEnmanuel23/personal-finance-tracker.git
+```
+
+2 - Install dependencies
+
 ```
 cd personal-finance-tracker
-npm dev
+npm install
+```
+
+3 - Generate API Types
+
+```
+npm run generate-prisma-types
+```
+
+4 - Run the Dev Servers
+
+```
+npm run dev
+```
+
+The API runs on the port `8000`, if you change it, you will need to modify the file `/apps/front/.env`, too.
+
+```js
+// File: /apps/front/.env
+VITE_API=http://localhost:8000
 ```
 
 You can also run `Storybook` using the following command:
@@ -65,17 +92,12 @@ npm run storybook
 I have added two `env` files, normally we should not upload those files, but I did so for testing purposes.
 
 - /apps/api/.env
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
 - /apps/front/.env
 
 **I'll delete the database I used for this challenge once you have tested the challenge**
+
+### TODOS
+
+- Add more unit tests to the API and to the Fronted
+- Refactor some components
+- Fix some typescript issues

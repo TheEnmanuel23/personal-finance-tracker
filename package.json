@@ -5,7 +5,8 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "storybook": "turbo storybook"
+    "storybook": "turbo storybook",
+    "generate-prisma-types": "turbo generate-prisma-types"
   },
   "devDependencies": {
     "eslint": "^8.48.0",

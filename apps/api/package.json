@@ -9,7 +9,8 @@
     "migrate": "prisma migrate dev",
     "test": "jest --coverage",
     "lint": "eslint . --ext .ts --fix",
-    "seed": "ts-node -P tsconfig-seed.json -r tsconfig-paths/register --transpileOnly prisma/seed.ts"
+    "seed": "ts-node -P tsconfig-seed.json -r tsconfig-paths/register --transpileOnly prisma/seed.ts",
+    "generate-prisma-types": "prisma generate"
   },
   "keywords": [],
   "author": "",
