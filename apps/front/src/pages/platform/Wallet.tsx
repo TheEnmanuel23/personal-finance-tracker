@@ -2,12 +2,12 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../../hooks/use-auth";
 import { useQuery } from "react-query";
 import Modal from "../../components/Modal";
-import AddTransaction from "./components/AddTransaction";
 import { Button, Typography } from "ui";
 import GoBackLink from "./components/GoBackLink";
 import WalletSummary from "./components/WalletSummary";
 import { useState } from "react";
 import CategoriesList from "./components/CategoriesList";
+import TransactionForm from "./components/TransactionForm";
 
 const Wallet = () => {
   const auth = useAuth();
@@ -71,7 +71,7 @@ const Wallet = () => {
           <h1>Wallet: {wallet.name}</h1>
         </div>
 
-        <AddTransaction walletId={wallet.id} onSubmit={closeModal} />
+        <TransactionForm walletId={wallet.id} onSubmit={closeModal} />
       </Modal>
     </div>
   );

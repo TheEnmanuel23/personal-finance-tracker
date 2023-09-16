@@ -1,9 +1,9 @@
 import { Typography } from "ui";
 import Modal from "../../../components/Modal";
-import UpdateTransaction from "./UpdateTransaction";
 import { useState } from "react";
 import { getFormattedDate } from "../../../utils/date";
 import clsx from "clsx";
+import TransactionForm from "./TransactionForm";
 
 const TransactionItem = ({ transaction, wallet }) => {
   const [updateTransactionModal, setUpdateTransactionModal] = useState(false);
@@ -54,7 +54,8 @@ const TransactionItem = ({ transaction, wallet }) => {
           <h1>Wallet: {wallet.name}</h1>
         </div>
 
-        <UpdateTransaction
+        <TransactionForm
+          walletId={wallet.id}
           transaction={selectedTransaction}
           onSubmit={() => setUpdateTransactionModal(false)}
         />
