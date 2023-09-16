@@ -22,7 +22,7 @@ export function useMutateTransaction(
       }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(`wallet/${walletId}`);
+        queryClient.invalidateQueries(`/wallet/${walletId}/transactions`);
         callback();
       },
     },
@@ -46,7 +46,7 @@ export function useDeleteTransaction(
       }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(`wallet/${walletId}`);
+        queryClient.invalidateQueries(`/wallet/${walletId}/transactions`);
         callback();
       },
     },
