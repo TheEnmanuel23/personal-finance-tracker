@@ -30,3 +30,26 @@ export function useMutateWallet(wallet, callback: VoidFunction) {
     },
   );
 }
+
+export function useDeleteWallet(walletId: string, callback: VoidFunction) {
+  const auth = useAuth();
+
+  const userId = auth?.data?.user.id;
+  const queryClient = useQueryClient();
+  const endpoint = `/wallet/${walletId}`;
+
+  return useMutation(
+    () =>
+      fetcher({
+        endpoint,
+        type: "DELETE",
+        authorized: true,
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(`wallet/owner/${userId}`);
+        callback();
+      },
+    },
+  );
+}

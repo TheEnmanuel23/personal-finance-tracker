@@ -144,7 +144,7 @@ const TransactionForm = ({
           onChange={handleChange}
         />
 
-        <div className="flex gap-4">
+        <div className="flex flex-col gap-4">
           <Button>Save</Button>
           {transaction && (
             <Button

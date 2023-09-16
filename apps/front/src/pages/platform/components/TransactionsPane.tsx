@@ -51,7 +51,6 @@ const TransactionsPane = ({
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               width={70}
-              width={730}
               height={250}
               data={selectedCategory.transactions}
             >

@@ -1,7 +1,10 @@
 import { Button, Field, Typography } from "ui";
 import GoBackLink from "../components/GoBackLink";
 import { useState } from "react";
-import { useMutateWallet } from "../../../queries/useMutateWallet";
+import {
+  useDeleteWallet,
+  useMutateWallet,
+} from "../../../queries/useMutateWallet";
 import { useNavigate } from "react-router-dom";
 
 const WalletForm = ({ title, wallet }: { title: string; wallet?: unknown }) => {
@@ -16,7 +19,9 @@ const WalletForm = ({ title, wallet }: { title: string; wallet?: unknown }) => {
   const { mutate } = useMutateWallet(wallet, () => {
     navigate(url);
   });
-
+  const { mutate: deleteWallet } = useDeleteWallet(wallet?.id, () => {
+    navigate("/");
+  });
   const handleSubmit = (e) => {
     e.preventDefault();
     mutate(values);
@@ -58,7 +63,14 @@ const WalletForm = ({ title, wallet }: { title: string; wallet?: unknown }) => {
             placeholder="$"
             onChange={handleChange}
           />
-          <Button>Save</Button>
+          <div className="flex flex-col gap-2">
+            <Button>Save</Button>
+            {wallet && (
+              <Button variant="secondary" onClick={deleteWallet}>
+                Delete
+              </Button>
+            )}
+          </div>
         </form>
       </div>
     </div>
