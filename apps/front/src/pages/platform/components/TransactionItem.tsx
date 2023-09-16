@@ -55,9 +55,9 @@ const TransactionItem = ({ transaction, wallet }) => {
         closeModal={() => setUpdateTransactionModal(false)}
         isOpen={updateTransactionModal}
       >
-        <div className="mt-2">
-          <h1>Wallet: {wallet.name}</h1>
-        </div>
+        <Typography as="h5" className="mb-5">
+          Wallet: {wallet.name}
+        </Typography>
 
         <TransactionForm
           walletId={wallet.id}

@@ -61,9 +61,9 @@ const Wallet = () => {
       </div>
       <div>{content}</div>
       <Modal title="Add Transaction" closeModal={closeModal} isOpen={isOpen}>
-        <div className="mt-2">
-          <h1>Wallet: {wallet.name}</h1>
-        </div>
+        <Typography as="h5" className="mb-5">
+          Wallet: {wallet.name}
+        </Typography>
 
         <TransactionForm walletId={wallet.id} onSubmit={closeModal} />
       </Modal>
