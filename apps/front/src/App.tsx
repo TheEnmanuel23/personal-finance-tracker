@@ -8,6 +8,7 @@ import CreateWallet from "./pages/platform/CreateWallet";
 import Root from "./pages/platform/Root";
 import Wallet from "./pages/platform/Wallet";
 import Report from "./pages/platform/Report";
+import EditWallet from "./pages/platform/EditWallet";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "wallet/:id/report",
         element: <Report />,
+      },
+      {
+        path: "wallet/:id/edit",
+        element: <EditWallet />,
       },
     ],
   },

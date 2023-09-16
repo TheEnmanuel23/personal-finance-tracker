@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/Modal";
 import { Button, Typography } from "ui";
 import GoBackLink from "./components/GoBackLink";
@@ -8,9 +8,11 @@ import CategoriesList from "./components/CategoriesList";
 import TransactionForm from "./components/TransactionForm";
 import { useTransactions } from "../../queries/useTransactions";
 import NoData from "./components/NoData";
+import { PencilSquareIcon } from "@heroicons/react/20/solid";
 
 const Wallet = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -44,7 +46,13 @@ const Wallet = () => {
         <div className="flex flex-col gap-3">
           <GoBackLink to="/wallets" />
           <div className="flex justify-between">
-            <Typography as="h2">Wallet: {wallet.name}</Typography>
+            <div className="flex items-center gap-1">
+              <Typography as="h2">Wallet: {wallet.name} </Typography>
+              <PencilSquareIcon
+                className="h-4 w-4 inline text-indigo-500 cursor-pointer"
+                onClick={() => navigate(`/wallet/${params.id}/edit`)}
+              />
+            </div>
 
             <Button className="uppercase text-sm" onClick={openModal}>
               Add Transaction
