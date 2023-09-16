@@ -15,5 +15,6 @@ walletRouter.get(
   "/:id/transactions",
   walletController.getTransactionsByWalletId.bind(walletController),
 );
+walletRouter.delete("/:id", walletController.delete.bind(walletController));
 
 export { walletRouter };

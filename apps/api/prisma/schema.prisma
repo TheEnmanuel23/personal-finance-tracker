@@ -34,9 +34,9 @@ model Transaction {
   type       TransactionType
   amount     Float
   categoryId String
-  category   TransactionCategory        @relation(fields: [categoryId], references: [id])
+  category   TransactionCategory        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   note       String
-  wallet     Wallet          @relation(fields: [walletId], references: [id])
+  wallet     Wallet          @relation(fields: [walletId], references: [id], onDelete: Cascade)
   walletId   String
 }
 
@@ -52,7 +52,7 @@ model Wallet {
   transactions Transaction[]
   
   ownerId String
-  owner User @relation(fields: [ownerId], references: [id])
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
   @@unique([id, name])
   @@index([id, name])

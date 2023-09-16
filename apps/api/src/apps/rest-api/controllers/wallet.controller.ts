@@ -35,4 +35,9 @@ export class WalletController {
     const wallets = await this.walletApp.getWalletsByOwner(req.params.id);
     res.json(wallets);
   }
+
+  async delete(req: Request, res: Response) {
+    const deleted = await this.walletApp.delete(req.params.id);
+    res.json(deleted);
+  }
 }

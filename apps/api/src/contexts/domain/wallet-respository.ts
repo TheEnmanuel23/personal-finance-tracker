@@ -12,4 +12,6 @@ export interface WalletRepository {
   getTransactionsByWalletId: (walletId: string) => Promise<Wallet | null>;
 
   getWalletsByOwner: (ownerId: string) => Promise<Wallet[]>;
+
+  delete: (id: string) => Promise<boolean>;
 }

@@ -51,4 +51,13 @@ export class WalletPrismaRepository implements WalletRepository {
 
     return wallets;
   }
+
+  async delete(id: string) {
+    try {
+      await db.wallet.delete({ where: { id } });
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
 }

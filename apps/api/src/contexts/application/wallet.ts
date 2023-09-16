@@ -27,4 +27,8 @@ export class WalletApp {
   async getWalletsByOwner(ownerId: string) {
     return await this.walletRepository.getWalletsByOwner(ownerId);
   }
+
+  async delete(id: string) {
+    return await this.walletRepository.delete(id);
+  }
 }
