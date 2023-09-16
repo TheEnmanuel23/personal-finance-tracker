@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import fetcher from "../utils/fetcher";
 
 interface User {
   id?: string;
@@ -18,24 +19,16 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>(null!);
 
-const fetcher = async (url: string, user: User) => {
-  return await fetch(`http://localhost:8000/auth/${url}`, {
-    method: "POST",
-    body: JSON.stringify(user),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => {
-      if (res.status === 401 || res.status === 409) {
-        throw new Error(res.status.toString());
-      }
-      return res.json();
-    })
-    .then((data) => {
-      localStorage.setItem("userData", JSON.stringify(data));
-      return data;
-    });
+const authFecher = async (url: string, user: User) => {
+  return await fetcher({
+    authorized: false,
+    endpoint: `/auth/${url}`,
+    type: "POST",
+    data: user,
+  }).then((data) => {
+    localStorage.setItem("userData", JSON.stringify(data));
+    return data;
+  });
 };
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -48,11 +41,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   const signin = async (user: User) => {
-    return await fetcher("signin", user).then((data) => setData(data));
+    return await authFecher("signin", user).then((data) => setData(data));
   };
 
   const signup = async (user: User) => {
-    return await fetcher("signup", user).then((data) => setData(data));
+    return await authFecher("signup", user).then((data) => setData(data));
   };
 
   const signout = () => {

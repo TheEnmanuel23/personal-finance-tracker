@@ -14,8 +14,16 @@ const fetcher = async ({
   return await fetch(url, {
     method: type,
     ...(["PUT", "POST"].includes(type) && { body: JSON.stringify(data) }),
-    ...(requiredAuth && setAuthorizationToken()),
-  }).then((res) => res.json());
+    headers: {
+      "Content-Type": "application/json",
+      ...(requiredAuth && setAuthorizationToken()),
+    },
+  }).then((res) => {
+    if (res.status === 401 || res.status === 409) {
+      throw new Error(res.status.toString());
+    }
+    return res.json();
+  });
 };
 
 function setAuthorizationToken() {
@@ -28,10 +36,7 @@ function setAuthorizationToken() {
   const { jwt } = JSON.parse(storedUserData) as { jwt: string };
 
   return {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${jwt}`,
-    },
+    Authorization: `Bearer ${jwt}`,
   };
 }
 
