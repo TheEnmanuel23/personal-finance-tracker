@@ -5,6 +5,16 @@ import { getFormattedDate } from "../../../utils/date";
 import clsx from "clsx";
 import TransactionForm from "./TransactionForm";
 
+function DateField({ formattedDate }) {
+  return (
+    <div>
+      <span className="text-xs">{formattedDate.dayOfWeek}, </span>
+      <span className="text-xs">{formattedDate.month} </span>
+      <span className="text-xs">{formattedDate.year}</span>
+    </div>
+  );
+}
+
 const TransactionItem = ({ transaction, wallet }) => {
   const [updateTransactionModal, setUpdateTransactionModal] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
@@ -23,11 +33,7 @@ const TransactionItem = ({ transaction, wallet }) => {
         <div className="flex gap-1">
           <Typography className="text-xl">{date.dayOfTheMonth}</Typography>
           <div>
-            <div>
-              <span className="text-xs">{date.dayOfWeek}, </span>
-              <span className="text-xs">{date.month} </span>
-              <span className="text-xs">{date.year}</span>
-            </div>
+            <DateField formattedDate={date} />
             <Typography className="text-xs text-gray-400">
               {transaction.note}
             </Typography>

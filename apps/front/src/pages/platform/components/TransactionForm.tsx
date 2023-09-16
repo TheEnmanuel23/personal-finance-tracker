@@ -4,7 +4,7 @@ import useCategories from "../../../queries/useCategories";
 import {
   useDeleteTransaction,
   useMutateTransaction,
-} from "../../../queries/useTransaction";
+} from "../../../queries/useMutateTransaction";
 import { Button } from "ui";
 
 const transactionTypes = [

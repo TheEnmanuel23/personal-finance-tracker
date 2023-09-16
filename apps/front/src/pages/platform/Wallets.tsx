@@ -4,11 +4,12 @@ import { Typography } from "ui";
 import Link from "./components/Link";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import fetcher from "../../utils/fetcher";
+import NoData from "./components/NoData";
 
 const Wallets = () => {
   const auth = useAuth();
 
-  const { data, isLoading } = useQuery("wallets", () => {
+  const { data = [], isLoading } = useQuery("wallets", () => {
     return fetcher({
       type: "GET",
       endpoint: `/wallet/owner/${auth.data?.user.id}`,
@@ -28,6 +29,7 @@ const Wallets = () => {
           <PlusIcon className="text-sm h-6 w-6 inline" /> Add new Wallet
         </Link>
       </div>
+      {data?.length === 0 && <NoData message="No Wallets" />}
       <div className="mt-5">
         <ul>
           {data.map((wallet) => (

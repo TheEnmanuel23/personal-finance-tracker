@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
 import Modal from "../../components/Modal";
 import { Button, Typography } from "ui";
 import GoBackLink from "./components/GoBackLink";
@@ -7,7 +6,8 @@ import WalletSummary from "./components/WalletSummary";
 import { useState } from "react";
 import CategoriesList from "./components/CategoriesList";
 import TransactionForm from "./components/TransactionForm";
-import fetcher from "../../utils/fetcher";
+import { useTransactions } from "../../queries/useTransactions";
+import NoData from "./components/NoData";
 
 const Wallet = () => {
   const params = useParams();
@@ -20,14 +20,7 @@ const Wallet = () => {
   function openModal() {
     setIsOpen(true);
   }
-
-  const { data: wallet, isLoading } = useQuery(`wallet/${params.id}`, () => {
-    return fetcher({
-      type: "GET",
-      authorized: true,
-      endpoint: `/wallet/${params.id}/transactions`,
-    });
-  });
+  const { data: wallet, isLoading } = useTransactions(params.id);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -35,12 +28,7 @@ const Wallet = () => {
 
   let content;
   if (wallet?.transactions.length === 0) {
-    content = (
-      <div>
-        <p>:-(</p>
-        <p>No transactions</p>
-      </div>
-    );
+    content = <NoData message="No Transactions" />;
   } else {
     content = (
       <div>
