@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { useAuth } from "../../hooks/use-auth";
 import { useQuery } from "react-query";
 import Modal from "../../components/Modal";
 import { Button, Typography } from "ui";
@@ -8,9 +7,9 @@ import WalletSummary from "./components/WalletSummary";
 import { useState } from "react";
 import CategoriesList from "./components/CategoriesList";
 import TransactionForm from "./components/TransactionForm";
+import fetcher from "../../utils/fetcher";
 
 const Wallet = () => {
-  const auth = useAuth();
   const params = useParams();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,11 +22,11 @@ const Wallet = () => {
   }
 
   const { data: wallet, isLoading } = useQuery(`wallet/${params.id}`, () => {
-    return fetch(`http://localhost:8000/wallet/${params.id}/transactions`, {
-      headers: {
-        Authorization: `Bearer ${auth.data?.jwt}`,
-      },
-    }).then((res) => res.json());
+    return fetcher({
+      type: "GET",
+      authorized: true,
+      endpoint: `/wallet/${params.id}/transactions`,
+    });
   });
 
   if (isLoading) {

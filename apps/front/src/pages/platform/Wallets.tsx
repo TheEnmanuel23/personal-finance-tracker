@@ -3,16 +3,17 @@ import { useQuery } from "react-query";
 import { Typography } from "ui";
 import Link from "./components/Link";
 import { PlusIcon } from "@heroicons/react/20/solid";
+import fetcher from "../../utils/fetcher";
 
 const Wallets = () => {
   const auth = useAuth();
 
   const { data, isLoading } = useQuery("wallets", () => {
-    return fetch(`http://localhost:8000/wallet/owner/${auth.data?.user.id}`, {
-      headers: {
-        Authorization: `Bearer ${auth.data?.jwt}`,
-      },
-    }).then((res) => res.json());
+    return fetcher({
+      type: "GET",
+      endpoint: `/wallet/owner/${auth.data?.user.id}`,
+      authorized: true,
+    });
   });
 
   if (isLoading) {

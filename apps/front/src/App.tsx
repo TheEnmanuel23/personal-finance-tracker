@@ -1,6 +1,3 @@
-// import reactLogo from "./assets/react.svg";
-// import viteLogo from "/vite.svg";
-// import { Button } from "ui";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Wallets from "./pages/platform/Wallets";

@@ -1,48 +1,16 @@
 import { useState } from "react";
 import Select from "../../../components/Select";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useAuth } from "../../../hooks/use-auth";
+import useCategories from "../../../queries/useCategories";
+import {
+  useDeleteTransaction,
+  useMutateTransaction,
+} from "../../../queries/useTransaction";
+import { Button } from "ui";
 
 const transactionTypes = [
   { name: "Expense", value: "EXPENSE" },
   { name: "Income", value: "INCOME" },
 ];
-
-const fetcher = async ({
-  jwt,
-  id,
-  data,
-  type,
-}: {
-  jwt: string;
-  id: string;
-  type: "PUT" | "DELETE" | "POST";
-  data: {
-    categoryId: string;
-    amount: number;
-    note?: string;
-    type: string;
-    walletId: string;
-  };
-}) => {
-  let url = "http://localhost:8000/transaction";
-  if (id) url += `/${id}`;
-
-  return await fetch(url, {
-    method: type,
-    ...(["PUT", "POST"].includes(type) && { body: JSON.stringify(data) }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${jwt}`,
-    },
-  })
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      return data;
-    });
-};
 
 const TransactionForm = ({
   walletId,
@@ -64,7 +32,6 @@ const TransactionForm = ({
     };
   };
 }) => {
-  const auth = useAuth();
   const [selectedType, setSelectedType] = useState(() => {
     if (transaction) {
       return transactionTypes.find((item) => item.value === transaction.type);
@@ -95,58 +62,34 @@ const TransactionForm = ({
       };
     }
   });
-  const queryClient = useQueryClient();
 
-  const { data = [] } = useQuery(
-    `transactions/categories/${selectedType.value}`,
-    async () => {
-      return await fetch(
-        `http://localhost:8000/transaction/categories/${selectedType.value}`,
-        {
-          headers: {
-            Authorization: `Bearer ${auth.data?.jwt}`,
-          },
-        },
-      ).then((res) => res.json());
-    },
-    {
-      onSuccess: (data) => {
-        if (!transaction) {
-          setSelectedCategory({ name: data[0].name, value: data[0].id });
-        }
-      },
-    },
+  const { data = [] } = useCategories(selectedType.value, (res) => {
+    if (!transaction) {
+      setSelectedCategory({ name: res[0].name, value: res[0].id });
+    }
+  });
+
+  const { mutate: mutateTransaction } = useMutateTransaction(
+    walletId,
+    transaction?.id,
+    onSubmit,
   );
 
-  const { mutate } = useMutation(fetcher, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(`wallet/${walletId}`);
-      onSubmit();
-    },
-  });
+  const { mutate: deleteTransaction } = useDeleteTransaction(
+    transaction?.id,
+    walletId,
+    onSubmit,
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    mutate({
-      type: transaction ? "PUT" : "POST",
-      jwt: auth.data?.jwt,
-      ...(transaction && { id: transaction.id }),
-      data: {
-        amount: Number(values.amount),
-        note: values.note,
-        categoryId: selectedCategory.value,
-        type: selectedType.value,
-        walletId,
-      },
-    });
-  };
-
-  const handleDelete = () => {
-    mutate({
-      type: "DELETE",
-      jwt: auth.data?.jwt,
-      id: transaction.id,
+    mutateTransaction({
+      amount: Number(values.amount),
+      note: values.note,
+      categoryId: selectedCategory.value,
+      type: selectedType.value,
+      walletId,
     });
   };
 
@@ -209,17 +152,15 @@ const TransactionForm = ({
         </label>
 
         <div className="flex gap-4">
-          <button className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
-            Save
-          </button>
+          <Button>Save</Button>
           {transaction && (
-            <button
+            <Button
+              variant="secondary"
               type="button"
-              className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-              onClick={handleDelete}
+              onClick={deleteTransaction}
             >
               Delete
-            </button>
+            </Button>
           )}
         </div>
       </div>
